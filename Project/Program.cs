@@ -1,11 +1,9 @@
-﻿// Grünzweil Lukas 1BHIF
-// Übung: [NAME]
-// Beginn: [START_DATE]
-
-internal class Program
+﻿internal class Program
 {
     private static void Main()
     {
-        
+        Calculation c = new("-2*3^2+5");
+        if (c.TryEvaluate(out string result)) Console.WriteLine(result);
+        Console.ReadLine();
     }
 }
