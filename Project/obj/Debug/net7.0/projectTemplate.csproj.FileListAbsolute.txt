@@ -1,0 +1,42 @@
+D:\_projectTemplate\bin\Debug\net7.0\projectTemplate.exe
+D:\_projectTemplate\bin\Debug\net7.0\projectTemplate.deps.json
+D:\_projectTemplate\bin\Debug\net7.0\projectTemplate.runtimeconfig.json
+D:\_projectTemplate\bin\Debug\net7.0\projectTemplate.dll
+D:\_projectTemplate\bin\Debug\net7.0\projectTemplate.pdb
+D:\_projectTemplate\obj\Debug\net7.0\projectTemplate.GeneratedMSBuildEditorConfig.editorconfig
+D:\_projectTemplate\obj\Debug\net7.0\projectTemplate.AssemblyInfoInputs.cache
+D:\_projectTemplate\obj\Debug\net7.0\projectTemplate.AssemblyInfo.cs
+D:\_projectTemplate\obj\Debug\net7.0\projectTemplate.csproj.CoreCompileInputs.cache
+D:\_projectTemplate\obj\Debug\net7.0\projectTemplate.dll
+D:\_projectTemplate\obj\Debug\net7.0\refint\projectTemplate.dll
+D:\_projectTemplate\obj\Debug\net7.0\projectTemplate.pdb
+D:\_projectTemplate\obj\Debug\net7.0\projectTemplate.genruntimeconfig.cache
+D:\_projectTemplate\obj\Debug\net7.0\ref\projectTemplate.dll
+C:\C# Projects\_projectTemplate\bin\Debug\net7.0\projectTemplate.exe
+C:\C# Projects\_projectTemplate\bin\Debug\net7.0\projectTemplate.deps.json
+C:\C# Projects\_projectTemplate\bin\Debug\net7.0\projectTemplate.runtimeconfig.json
+C:\C# Projects\_projectTemplate\bin\Debug\net7.0\projectTemplate.dll
+C:\C# Projects\_projectTemplate\bin\Debug\net7.0\projectTemplate.pdb
+C:\C# Projects\_projectTemplate\obj\Debug\net7.0\projectTemplate.GeneratedMSBuildEditorConfig.editorconfig
+C:\C# Projects\_projectTemplate\obj\Debug\net7.0\projectTemplate.AssemblyInfoInputs.cache
+C:\C# Projects\_projectTemplate\obj\Debug\net7.0\projectTemplate.AssemblyInfo.cs
+C:\C# Projects\_projectTemplate\obj\Debug\net7.0\projectTemplate.csproj.CoreCompileInputs.cache
+C:\C# Projects\_projectTemplate\obj\Debug\net7.0\projectTemplate.dll
+C:\C# Projects\_projectTemplate\obj\Debug\net7.0\refint\projectTemplate.dll
+C:\C# Projects\_projectTemplate\obj\Debug\net7.0\projectTemplate.pdb
+C:\C# Projects\_projectTemplate\obj\Debug\net7.0\projectTemplate.genruntimeconfig.cache
+C:\C# Projects\_projectTemplate\obj\Debug\net7.0\ref\projectTemplate.dll
+D:\C# Projects\_projectTemplate\bin\Debug\net7.0\projectTemplate.exe
+D:\C# Projects\_projectTemplate\bin\Debug\net7.0\projectTemplate.deps.json
+D:\C# Projects\_projectTemplate\bin\Debug\net7.0\projectTemplate.runtimeconfig.json
+D:\C# Projects\_projectTemplate\bin\Debug\net7.0\projectTemplate.dll
+D:\C# Projects\_projectTemplate\bin\Debug\net7.0\projectTemplate.pdb
+D:\C# Projects\_projectTemplate\obj\Debug\net7.0\projectTemplate.GeneratedMSBuildEditorConfig.editorconfig
+D:\C# Projects\_projectTemplate\obj\Debug\net7.0\projectTemplate.AssemblyInfoInputs.cache
+D:\C# Projects\_projectTemplate\obj\Debug\net7.0\projectTemplate.AssemblyInfo.cs
+D:\C# Projects\_projectTemplate\obj\Debug\net7.0\projectTemplate.csproj.CoreCompileInputs.cache
+D:\C# Projects\_projectTemplate\obj\Debug\net7.0\projectTemplate.dll
+D:\C# Projects\_projectTemplate\obj\Debug\net7.0\refint\projectTemplate.dll
+D:\C# Projects\_projectTemplate\obj\Debug\net7.0\projectTemplate.pdb
+D:\C# Projects\_projectTemplate\obj\Debug\net7.0\projectTemplate.genruntimeconfig.cache
+D:\C# Projects\_projectTemplate\obj\Debug\net7.0\ref\projectTemplate.dll
