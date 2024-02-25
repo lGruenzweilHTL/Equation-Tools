@@ -2,8 +2,14 @@
 {
     private static void Main()
     {
-        Calculation c = new("-2*3^2+5");
-        if (c.TryEvaluate(out string result)) Console.WriteLine(result);
+        new Expression("").TEST();
+        InputTest();
         Console.ReadLine();
+    }
+
+    private static void InputTest()
+    {
+        Console.Write("Enter an Expression: ");
+        Console.WriteLine("Simplified to: " + new Expression(Console.ReadLine()!).Simplify());
     }
 }

@@ -4,13 +4,21 @@ public class Calculation
     {
         current = s;
     }
-    public string current;
+    private string current;
     public bool IsValid()
     {
         // if there is no occurence of any allowed variable, return true
         return current.IndexOfAny(Master.allowedVariableNames) == -1;
     }
 
+    public string Evaluate()
+    {
+        try
+        {
+            return Evaluate(current);
+        }
+        catch { throw; }
+    }
     public bool TryEvaluate(out string result)
     {
         result = "";
@@ -18,7 +26,7 @@ public class Calculation
 
         try
         {
-            result = Evaluate(current);
+            result = Evaluate();
             return true;
         }
         catch { return false; }
@@ -27,6 +35,7 @@ public class Calculation
     {
         try
         {
+            s = s.Replace(" ", "");
             s = EvaluateBrackets(s).Replace(" ", "");
             s = EvaluatePowers(s).Replace(" ", "");
             s = EvaluateDotOperations(s).Replace(" ", "");
@@ -40,7 +49,7 @@ public class Calculation
     {
         if (!s.Contains('(')) return s;
 
-        int startIndex = 0;
+        int endIndex = 0;
         int currentLayer = 0;
 
         for (int i = s.Length - 1; i >= 0; i--)
@@ -55,14 +64,14 @@ public class Calculation
             if (s[i] == ')')
             {
                 currentLayer++;
-                if (currentLayer == 1) startIndex = i;
+                if (currentLayer == 1) endIndex = i;
             }
             else if (s[i] == '(')
             {
                 currentLayer--;
                 if (currentLayer != 0) return;
 
-                string stringToEvaluate = s[i..(startIndex+1)]; // for example "(2+3)"
+                string stringToEvaluate = s[i..(endIndex + 1)]; // for example "(2+3)"
                 string eval = Evaluate(stringToEvaluate[1..^1]); // evaluates only "2+3"
 
                 s = s.Replace(stringToEvaluate, eval); // replaces "(2+3)" with 5
@@ -144,6 +153,10 @@ public class Calculation
     {
         double result = 0;
 
+        // handle weird case with negative numbers
+        s = s.Replace("--", "+");
+
+        
         // 15 - 10 is converted to 15 +- 10
         // so the array will be {15, -10}
         // and the calculation will be correct
