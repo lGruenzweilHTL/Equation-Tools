@@ -55,6 +55,7 @@ public class Equation
         Console.WriteLine("Expected: no numbers; Solved: " + new Equation("4*5 = 5*5").Solve());
         Console.WriteLine("Expected: x=-0,5; Solved: " + new Equation("1 - (x + 2) = x").Solve());
         Console.WriteLine("Expected: x=-2,5; Solved: " + new Equation("2(x+2) - x = -(x+1)").Solve());
+        Console.WriteLine("Expected: x=243; Solved: " + new Equation("(1+2)^5=x").Solve());
         Console.WriteLine("\n");
     }
 
@@ -95,7 +96,6 @@ public class Equation
         Step 1: Move variable to the left: 3x - 2x - 1 = 2
         Step 2: Move number to the right: 3x - 2x = 2 + 1
     */
-    // TODO: move numbers to the right
     private (string left, string right) MoveVariable(string left, string right)
     {
         char variable = (left + right).First(c => allowedVariableNames.Contains(c));
@@ -125,7 +125,7 @@ public class Equation
             if (product == "" || product.Any(c => allowedVariableNames.Contains(c))) continue;
 
             // remove product from left side
-            left = left.Remove(i - product.Length + 1, product.Length);
+            left = left.Remove(i - 1, product.Length);
 
             // find out operator, then cut from product
             char op = product[0];
@@ -177,6 +177,7 @@ public class Equation
         int variableIndex = left.IndexOf(variable);
 
         string number = left[..variableIndex];
+        if (number == "-") number = "-1";
 
         left = variable.ToString();
         right = $"({right})/{number}";
