@@ -1,5 +1,8 @@
 using System.Text;
 using static Master;
+using MathTools.Internal;
+
+namespace MathTools;
 
 public class Expression
 {
@@ -16,16 +19,14 @@ public class Expression
         {
             return Simplify(current);
         }
-        catch (Exception e)
-        {
-            Console.WriteLine("ERROR: " + e);
-            return current;
-        }
+        catch { throw; }
     }
 
     private string Simplify(string s)
     {
         if (s is null or "") return "";
+
+        s = s.Format();
 
         if (variableCount == 0) return new Calculation(s).Evaluate();
 
@@ -38,7 +39,7 @@ public class Expression
 
     public void TEST()
     {
-        Console.WriteLine("TEST CASES:\n");
+        Console.WriteLine("TEST CASES (expression):");
         Console.WriteLine("Expected: 2-1-2+3-x+3-2; Evaluated: " + EvaluateBracketSigns("2 - (1 + 2) + (3 - x) - (-3 + 2)"));
         Console.WriteLine("Expected: 1; Evaluated: " + new Expression("2 - (1 + 2) + (3 - 2) - (-3 + 2)").Simplify());
         Console.WriteLine("Expected: 3-x; Evaluated: " + new Expression("2 - (1 + 2) + (3 - x) - (-3 + 2)").Simplify());
@@ -85,6 +86,8 @@ public class Expression
                 }
                 else continue;
 
+                if (s[openIndex] != '(') break; // fix weird case with nested brackets
+
                 bool dotOperationAtStart = false;
                 if (openIndex != 0)
                 {
@@ -98,7 +101,7 @@ public class Expression
 
                 if (!dotOperationAtStart && !dotOperationAtEnd)
                 {
-                    targetLayer = 0;
+                    targetLayer--;
                     break;
                 }
 
@@ -118,26 +121,36 @@ public class Expression
                     else endProduct = GetEndOperationAt(s, closedIndex + 2);
                 }
 
-                if (dotOperationAtStart && s[openIndex - 1] == '*')
+                if (startProduct != "")
                 {
-                    coefficient += "*" + startProduct;
+                    if (dotOperationAtStart && s[openIndex - 1] == '*')
+                    {
+                        coefficient += "*" + startProduct;
+                    }
+                    if (dotOperationAtStart && s[openIndex - 1] == '/')
+                    {
+                        //TODO : implementation with reworked power system
+                    }
                 }
-                if (dotOperationAtStart && s[openIndex - 1] == '/')
+                if (endProduct != "")
                 {
-                    //TODO : implementation with reworked power system
-                }
-                if (dotOperationAtEnd && s[closedIndex + 1] == '*')
-                {
-                    coefficient += "*" + endProduct;
-                }
-                if (dotOperationAtEnd && s[closedIndex + 1] == '/')
-                {
-                    coefficient += "/" + endProduct;
+                    if (dotOperationAtEnd && s[closedIndex + 1] == '*')
+                    {
+                        coefficient += "*" + endProduct;
+                    }
+                    if (dotOperationAtEnd && s[closedIndex + 1] == '/')
+                    {
+                        coefficient += "/" + endProduct;
+                    }
                 }
 
-                for (int j = closedIndex; j >= openIndex; j--)
+                // Moved from inside the loop to outside (only at the end),
+                // because this led to some bugs with nested brackets
+                // Example of error: "3*((3*x))" would simplify to "27x"
+                s = s.Insert(closedIndex, coefficient);
+                for (int j = closedIndex - 1; j >= openIndex; j--)
                 {
-                    if (s[j] is '+' or '-' or ')')
+                    if (s[j] is '+' or '-')
                     {
                         s = s.Insert(j, coefficient);
                     }
@@ -145,21 +158,8 @@ public class Expression
 
                 if (startProduct != "") s = s.Remove(openIndex - startProduct.Length - 1, startProduct.Length + 1);
 
-                //* Find new closedIndex (because of insertions and deletions)
-                int layer = 0;
-                for (int j = 0; j < s.Length; j++)
-                {
-                    if (s[j] == '(') layer++;
-                    if (s[j] == ')')
-                    {
-                        if (layer == targetLayer)
-                        {
-                            closedIndex = j;
-                            break;
-                        }
-                        layer--;
-                    }
-                }
+                // Find new closedIndex (because of insertions and deletions)
+                closedIndex = FindNewClosedIndex(s, targetLayer, 0);
 
                 if (endProduct != "") s = s.Remove(closedIndex + 1, endProduct.Length + 1);
 
@@ -173,6 +173,23 @@ public class Expression
         }
 
         return s;
+    }
+    private int FindNewClosedIndex(string s, int targetLayer, int startIndex)
+    {
+        int layer = 0;
+        for (int j = startIndex; j < s.Length; j++)
+        {
+            if (s[j] == '(') layer++;
+            if (s[j] == ')')
+            {
+                if (layer == targetLayer)
+                {
+                    return j;
+                }
+                layer--;
+            }
+        }
+        return -1;
     }
 
     private string GetEndOperationAt(string s, int index)
@@ -192,7 +209,7 @@ public class Expression
         {
             if (s[i] is '+' or '-' or '(' or ')')
             {
-                endIndex = i - 1;
+                endIndex = i;
                 break;
             }
         }
@@ -228,11 +245,18 @@ public class Expression
         int startIndex = 0;
         int endIndex = s.Length;
 
+        int layer = 0;
+
         for (int i = index; i >= 0; i--)
         {
             if (s[i] is '(')
             {
                 startIndex = i;
+                for (int j = i; j < s.Length; j++) // find out layer (I hope no one has to read this except for me)
+                {
+                    if (s[j] == '(') layer++;
+                    else break;
+                }
                 break;
             }
         }
@@ -241,8 +265,11 @@ public class Expression
         {
             if (s[i] is ')')
             {
-                endIndex = i + 1;
-                break;
+                if (--layer == 0)
+                {
+                    endIndex = i + 1;
+                    break;
+                }
             }
         }
 

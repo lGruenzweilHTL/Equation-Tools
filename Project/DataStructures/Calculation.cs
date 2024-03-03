@@ -1,3 +1,5 @@
+namespace MathTools.Internal;
+
 public class Calculation
 {
     public Calculation(string s)
@@ -156,7 +158,7 @@ public class Calculation
         // handle weird case with negative numbers
         s = s.Replace("--", "+");
 
-        
+
         // 15 - 10 is converted to 15 +- 10
         // so the array will be {15, -10}
         // and the calculation will be correct
