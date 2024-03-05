@@ -51,11 +51,12 @@ public class Equation
         Console.WriteLine("TEST CASES (equation):");
         Console.WriteLine("Expected: x=0; Solved: " + new Equation("2*x + x = x + x").Solve());
         Console.WriteLine("Expected: x=1; Solved: " + new Equation("3x = 3").Solve());
-        Console.WriteLine("Expected: all numbers; Solved: " + new Equation("4*4 = 16").Solve());
-        Console.WriteLine("Expected: no numbers; Solved: " + new Equation("4*5 = 5*5").Solve());
+        Console.WriteLine("Expected: infinite solutions; Solved: " + new Equation("4*4 = 16").Solve());
+        Console.WriteLine("Expected: no solution; Solved: " + new Equation("4*5 = 5*5").Solve());
         Console.WriteLine("Expected: x=-0,5; Solved: " + new Equation("1 - (x + 2) = x").Solve());
         Console.WriteLine("Expected: x=-2,5; Solved: " + new Equation("2(x+2) - x = -(x+1)").Solve());
         Console.WriteLine("Expected: x=243; Solved: " + new Equation("(1+2)^5=x").Solve());
+        Console.WriteLine("Expected: infinite solutions; Solved: " + new Equation("x=x").Solve());
         Console.WriteLine("\n");
     }
 
@@ -70,8 +71,8 @@ public class Equation
         // Early return if no variables
         if (GetUniqueVariableCount() == 0)
         {
-            if (left == right) return "all numbers";
-            else return "no numbers";
+            if (left == right) return infiniteSolutionsText;
+            else return noSolutionsText;
         }
 
         // Add '+' to the start for easier handling (if there's not already a '-')
@@ -86,6 +87,11 @@ public class Equation
         //* Simplify both sides individually
         left = new Expression(left.Replace(" ", "")).Simplify();
         right = new Expression(right.Replace(" ", "")).Simplify();
+
+        if (left == "") left = "0";
+
+        if (left == "0" && right != "0") return noSolutionsText;
+        if (left == right) return infiniteSolutionsText;
 
         (left, right) = DivideVariables(left, right);
 

@@ -14,4 +14,7 @@ public static class Master
     public static char[] allowedVariableNames = "xyz".ToCharArray();
 
     public record VariablePair(double coefficient, string variable);
+
+    public static string infiniteSolutionsText = "infinite solutions";
+    public static string noSolutionsText = "no solution";
 }

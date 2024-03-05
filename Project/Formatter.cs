@@ -25,7 +25,8 @@ public static class Formatter
 
         return s;
     }
-    public static string ReplaceEAndPi(this string s) => s.Replace("e", $"({Math.E})").Replace("pi", $"({Math.PI})");
+    public static string ReplaceEAndPi(this string s) => 
+        s.Replace("e", $"({Math.E})").Replace("pi", $"({Math.PI})");
     public static string HandleVariableCoefficients(this string s)
     {
         for (int i = s.Length - 1; i > 0; i--)
