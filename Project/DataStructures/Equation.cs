@@ -12,7 +12,7 @@ public class Equation
     {
         var sp = s.Split('=');
 
-        if (sp.Length != 2) throw new ArgumentException("Too many '=' signs");
+        if (sp.Length != 2) throw new ArgumentException("Too many/not enough '=' signs");
 
         left = sp[0];
         right = sp[1];
@@ -20,12 +20,12 @@ public class Equation
 
     public string left;
     public string right;
-    public int GetUniqueVariableCount()
+    public int GetUniqueVariableCount(string s)
     {
         int uniques = 0;
         List<char> alreadyListed = new();
 
-        foreach (char c in left + right)
+        foreach (char c in s)
         {
             if (allowedVariableNames.Contains(c) && !alreadyListed.Contains(c))
             {
@@ -57,19 +57,21 @@ public class Equation
         Console.WriteLine("Expected: x=-2,5; Solved: " + new Equation("2(x+2) - x = -(x+1)").Solve());
         Console.WriteLine("Expected: x=243; Solved: " + new Equation("(1+2)^5=x").Solve());
         Console.WriteLine("Expected: infinite solutions; Solved: " + new Equation("x=x").Solve());
+        Console.WriteLine("Expected: y=5; Solved: " + new Equation("y^2 + y = y^2 + 5").Solve());
+        Console.WriteLine("Expected: x=0; Solved: " + new Equation("(x+1)(x+1) = (x-1)(x-1)").Solve());
         Console.WriteLine("\n");
     }
 
     private string Solve(string left, string right)
     {
-        if (GetUniqueVariableCount() > 1) throw new ArgumentException("Too many variables in equation");
-
         //* Simplify both sides individually
         left = new Expression(left.Replace(" ", "")).Simplify();
         right = new Expression(right.Replace(" ", "")).Simplify();
 
+        if (GetUniqueVariableCount(left + right) > 1) throw new ArgumentException("Too many variables in equation");
+
         // Early return if no variables
-        if (GetUniqueVariableCount() == 0)
+        if (GetUniqueVariableCount(left + right) == 0)
         {
             if (left == right) return infiniteSolutionsText;
             else return noSolutionsText;
@@ -97,11 +99,6 @@ public class Equation
 
         return $"{left}={right}";
     }
-    /*
-        Input example: 3x - 1 = 2x + 2
-        Step 1: Move variable to the left: 3x - 2x - 1 = 2
-        Step 2: Move number to the right: 3x - 2x = 2 + 1
-    */
     private (string left, string right) MoveVariable(string left, string right)
     {
         char variable = (left + right).First(c => allowedVariableNames.Contains(c));
