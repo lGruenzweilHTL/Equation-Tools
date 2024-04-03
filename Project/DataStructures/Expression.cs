@@ -48,6 +48,7 @@ public class Expression
         Console.WriteLine("Expected: x+2; Evaluated: " + new Expression("2 * (x + 2) / 2").Simplify());
         Console.WriteLine("Expected: x^2+2x; Evaluated: " + new Expression("x * (x + 2)").Simplify());
         Console.WriteLine("Expected: 4x+8; Evaluated: " + new Expression("(x + 2) * (1 + 3)").Simplify());
+        Console.WriteLine("Expected: x^3,5; Evaluated: " + new Expression("x^2*x^1,5").Simplify());
         Console.WriteLine("\n");
     }
 
@@ -55,8 +56,8 @@ public class Expression
     {
         s = s.Replace(" ", "");
 
-        // Early return if there aren't any coefficients to evaluate
-        if (!s.Contains('*') && !s.Contains('/')) return s;
+        // Early return if there aren't any brackets to evaluate
+        if (!s.Contains('(')) return s;
 
         int targetLayer = GetMaxBracketLayer(s);
         while (targetLayer > 0)
@@ -318,6 +319,7 @@ public class Expression
                     }
                     s = b.Remove(openIndex, 1).Remove(closedIndex - 1, 1).ToString(); // remove enclosing brackets
                 }
+                else return s;
             }
         }
 
@@ -414,23 +416,6 @@ public class Expression
         //* Initialize
         s = s.Replace(" ", "").TrimStart('*');
 
-        /*for (int i = s.Length - 1; i >= 0; i--) //! Convert Powers
-        {
-            if (s[i] != '^') continue;
-
-            int index = i + 1;
-            while (char.IsNumber(s[index]) || s[i] == ',')
-            {
-                index++;
-                if (index >= s.Length) break;
-            }
-            double power = double.Parse(s[(i + 1)..index]);
-
-            char variable = s[i - 1];
-
-            s = s.Replace($"{variable}^{power}", MultiplyString("*" + variable, (int)power)[1..]);
-        }*/
-
         string numerator = "";
         string denominator = "";
 
@@ -454,10 +439,42 @@ public class Expression
         //* Simplify numerator and denominator
         foreach (char variable in allowedVariableNames)
         {
-            int numeratorCount = numerator.Count(c => c == variable);
-            int denominatorCount = denominator.Count(c => c == variable);
+            double power = 0;
 
-            int power = numeratorCount - denominatorCount;
+            //* Find power of variable in numerator
+            for (int i = 0; i < numerator.Length; i++)
+            {
+                if (numerator[i] == variable)
+                {
+                    double individualPower = 1;
+                    if (i < numerator.Length - 1 && numerator[i + 1] == '^') // if power sign exists
+                    {
+                        // find power
+                        int numberStart = i + 2;
+                        int numberEnd = numberStart;
+                        while (numberEnd < numerator.Length && (char.IsNumber(numerator[numberEnd]) || numerator[numberEnd] == ',')) numberEnd++;
+                        individualPower = double.Parse(numerator[numberStart..numberEnd]);
+                    }
+                    power += individualPower;
+                }
+            }
+            for (int i = 0; i < denominator.Length; i++)
+            {
+                if (denominator[i] == variable)
+                {
+                    double individualPower = 1;
+                    if (i < denominator.Length - 1 && denominator[i + 1] == '^') // if power sign exists
+                    {
+                        // find power
+                        int numberStart = i + 2;
+                        int numberEnd = numberStart;
+                        while (numberEnd < denominator.Length && (char.IsNumber(denominator[numberEnd]) || denominator[numberEnd] == ',')) numberEnd++;
+                        individualPower = double.Parse(denominator[numberStart..numberEnd]);
+                    }
+                    power -= individualPower;
+                }
+            }
+
 
             if (power != 0)
             {
@@ -466,15 +483,6 @@ public class Expression
             }
         }
 
-        return result;
-    }
-    private string MultiplyString(string s, int i)
-    {
-        string result = "";
-        for (int j = 0; j < i; j++)
-        {
-            result += s;
-        }
         return result;
     }
 }

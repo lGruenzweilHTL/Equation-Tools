@@ -58,15 +58,15 @@ public class Equation
         Console.WriteLine("Expected: x=243; Solved: " + new Equation("(1+2)^5=x").Solve());
         Console.WriteLine("Expected: infinite solutions; Solved: " + new Equation("x=x").Solve());
         Console.WriteLine("Expected: y=5; Solved: " + new Equation("y^2 + y = y^2 + 5").Solve());
-        Console.WriteLine("Expected: x=0; Solved: " + new Equation("(x+1)(x+1) = (x-1)(x-1)").Solve());
+        Console.WriteLine("Expected: a=1; Evaluated: " + new Expression("125^(1/3) = 5a").Simplify());
         Console.WriteLine("\n");
     }
 
     private string Solve(string left, string right)
     {
         //* Simplify both sides individually
-        left = new Expression(left.Replace(" ", "")).Simplify();
-        right = new Expression(right.Replace(" ", "")).Simplify();
+        left = new Expression(left).Simplify();
+        right = new Expression(right).Simplify();
 
         if (GetUniqueVariableCount(left + right) > 1) throw new ArgumentException("Too many variables in equation");
 

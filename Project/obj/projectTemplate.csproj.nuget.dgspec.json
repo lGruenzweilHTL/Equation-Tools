@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\C# Projects\\Equation-Tools\\Project\\projectTemplate.csproj": {}
+    "D:\\C# Projects\\Equation-Tools\\Project\\projectTemplate.csproj": {}
   },
   "projects": {
-    "C:\\C# Projects\\Equation-Tools\\Project\\projectTemplate.csproj": {
+    "D:\\C# Projects\\Equation-Tools\\Project\\projectTemplate.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\C# Projects\\Equation-Tools\\Project\\projectTemplate.csproj",
+        "projectUniqueName": "D:\\C# Projects\\Equation-Tools\\Project\\projectTemplate.csproj",
         "projectName": "projectTemplate",
-        "projectPath": "C:\\C# Projects\\Equation-Tools\\Project\\projectTemplate.csproj",
-        "packagesPath": "C:\\Users\\lukas_yfujc6v\\.nuget\\packages\\",
-        "outputPath": "C:\\C# Projects\\Equation-Tools\\Project\\obj\\",
+        "projectPath": "D:\\C# Projects\\Equation-Tools\\Project\\projectTemplate.csproj",
+        "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
+        "outputPath": "D:\\C# Projects\\Equation-Tools\\Project\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\lukas_yfujc6v\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
