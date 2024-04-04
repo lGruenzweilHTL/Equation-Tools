@@ -57,8 +57,8 @@ public class Equation
         Console.WriteLine("Expected: x=-2,5; Solved: " + new Equation("2(x+2) - x = -(x+1)").Solve());
         Console.WriteLine("Expected: x=243; Solved: " + new Equation("(1+2)^5=x").Solve());
         Console.WriteLine("Expected: infinite solutions; Solved: " + new Equation("x=x").Solve());
+        Console.WriteLine("Expected: a=1; Evaluated: " + new Equation("125^(1/3) = 5a").Solve());
         Console.WriteLine("Expected: y=5; Solved: " + new Equation("y^2 + y = y^2 + 5").Solve());
-        Console.WriteLine("Expected: a=1; Evaluated: " + new Expression("125^(1/3) = 5a").Simplify());
         Console.WriteLine("\n");
     }
 
@@ -83,12 +83,10 @@ public class Equation
 
         (left, right) = MoveVariable(left, right);
         if (right == "") right = "0";
-        else right = right.TrimStart('+');
-        left = left.TrimStart('+');
 
         //* Simplify both sides individually
-        left = new Expression(left.Replace(" ", "")).Simplify();
-        right = new Expression(right.Replace(" ", "")).Simplify();
+        left = new Expression(left).Simplify();
+        right = new Expression(right).Simplify();
 
         if (left == "") left = "0";
 
@@ -110,7 +108,7 @@ public class Equation
             string product = GetProductAround(right, index);
 
             // remove product from right side
-            right = right.Remove(index - product.Length + 1, product.Length);
+            right = right.Remove(Math.Max(0, index - product.Length + 1), product.Length);
 
             // find out operator, then cut from product
             char op = product[0];
@@ -174,6 +172,7 @@ public class Equation
 
     private (string left, string right) DivideVariables(string left, string right)
     {
+        if (left.Contains('^')) (left, right) = EvalPowers(left, right);
         if (left.All(c => allowedVariableNames.Contains(c))) return (left, right);
 
         char variable = (left + right).First(c => allowedVariableNames.Contains(c));
@@ -188,6 +187,18 @@ public class Equation
         //* Simplify both sides individually
         left = new Expression(left.Replace(" ", "")).Simplify();
         right = new Expression(right.Replace(" ", "")).Simplify();
+
+        return (left, right);
+    }
+    private (string left, string right) EvalPowers(string left, string right)
+    {
+        char variable = (left + right).First(c => allowedVariableNames.Contains(c));
+        int powerIndex = left.IndexOf(variable) + 2;
+
+        double power = double.Parse(left[powerIndex..]);
+
+        left = left[..(powerIndex - 1)];
+        right = new Expression($"{right}^(1/{power})").Simplify();
 
         return (left, right);
     }

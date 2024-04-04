@@ -12,6 +12,12 @@
     E and Pi
     Short forms like "2x"
     Short forms like "2(1+3)"
+    Exponents in equation (like "x^2 = 25") (gives only one answer)
+
+
+    *Errors:
+
+    Any Expression/Equation with a variable in the exponent
 */
 
 public static class Master

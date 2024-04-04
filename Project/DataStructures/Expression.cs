@@ -34,7 +34,7 @@ public class Expression
         s = EvaluateBracketSigns(s);
         s = SimplifyValueString(s);
 
-        return s;
+        return s.TrimStart('+');
     }
 
     public void TEST()

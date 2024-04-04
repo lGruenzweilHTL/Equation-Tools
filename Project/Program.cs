@@ -2,11 +2,16 @@
 using MathTools.Internal;
 internal class Program
 {
-    private static void Main()
+    private static void Main(string[] args)
     {
         new Expression("").TEST();
         new Equation("", "").TEST();
-        InputTest();
+        
+        if (args.Length == 0) InputTest();
+        else {
+            Console.WriteLine(new Expression(args[0]).Simplify());
+            Console.WriteLine(new Equation(args[1]).Solve());
+        }
         Console.ReadLine();
     }
 
