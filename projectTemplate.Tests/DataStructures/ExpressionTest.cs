@@ -1,34 +1,26 @@
 using System;
+using FluentAssertions;
 using JetBrains.Annotations;
 using MathTools;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 namespace projectTemplate.Tests.DataStructures;
 
-[TestClass]
 [TestSubject(typeof(Expression))]
 public class ExpressionTest {
-    [TestMethod]
-    public void TestExpression_Powers_Formatting() {
-        var expected = "x^3-4x";
-        var actual = new Expression("x(x^2 - 2(2) )").Simplify();
 
-        Assert.AreEqual(expected, actual);
-    }
-
-    [TestMethod]
-    public void TestExpression_MultiBrackets() {
-        var expected = "3x^3-8x^2-20x+16";
-        var actual = new Expression("(x+2)(x-4)(3x-2)").Simplify();
-
-        Assert.AreEqual(expected, actual);
-    }
-
-    [TestMethod]
-    public void TestExpression_PiAndE() {
-        var expected = Math.Pow(double.Pi, double.E).ToString();
-        var actual = new Expression("pi^e").Simplify();
-
-        Assert.AreEqual(expected, actual);
+    [Theory]
+    [InlineData("", "")]
+    [InlineData("3", "3")]
+    [InlineData("1+2", "3")]
+    [InlineData("5^3", "125")]
+    [InlineData("x*y/z", "xyz^-1")]
+    [InlineData("x*x/(x*x", "1")]
+    [InlineData("pi^e", "22,45915771836104")]
+    [InlineData("99*(99*99)*99+99^2-99/4*pi-e/2^7", "96069324,22434524")]
+    [InlineData("(a+b)(a+c)", "a^2+ac+ab+bc")]
+    [InlineData("1-(1-(1-(1-(1-(1-(1-(1-(1)", "1")]
+    public void TestExpression(string expr, string expected) {
+        new Expression(expr).Simplify().Should().NotBeNull().And.Be(expected);
     }
 }

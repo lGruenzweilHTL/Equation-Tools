@@ -1,8 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "8xAPuJIa6lalia4oJvob6vXe6MFZF1kDc2OgRO/Wix5eW5uHMmeIYqgBXUsxRq8VJOFJzS2tK9M6sSWKHd4gaQ==",
+  "dgSpecHash": "HFjNDK4niiuPA+KfdDVn+dDPAILuw8ObonB4U0uC2MK4LvANAuxE79zg1lw/nuOkiPhUCutQcaKID6ddGFtmcw==",
   "success": true,
-  "projectFilePath": "D:\\C# Projects\\Equation-Tools\\Project\\projectTemplate.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "C:\\C# Projects\\Equation-Tools\\Project\\projectTemplate.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\lukas_yfujc6v\\.nuget\\packages\\microsoft.netcore.app.ref\\7.0.19\\microsoft.netcore.app.ref.7.0.19.nupkg.sha512",
+    "C:\\Users\\lukas_yfujc6v\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\7.0.19\\microsoft.windowsdesktop.app.ref.7.0.19.nupkg.sha512",
+    "C:\\Users\\lukas_yfujc6v\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\7.0.19\\microsoft.aspnetcore.app.ref.7.0.19.nupkg.sha512",
+    "C:\\Users\\lukas_yfujc6v\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\7.0.19\\microsoft.netcore.app.host.win-x64.7.0.19.nupkg.sha512"
+  ],
   "logs": []
 }

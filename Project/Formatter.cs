@@ -30,8 +30,8 @@ public static class Formatter
     {
         for (int i = s.Length - 1; i > 0; i--)
         {
-            bool previousIsCoefficient = char.IsNumber(s[i - 1]) || allowedVariableNames.Contains(s[i - 1]);
-            if (allowedVariableNames.Contains(s[i]) && previousIsCoefficient) s = s.Insert(i, "*");
+            bool previousIsCoefficient = char.IsNumber(s[i - 1]) || AllowedVariableNames.Contains(s[i - 1]);
+            if (AllowedVariableNames.Contains(s[i]) && previousIsCoefficient) s = s.Insert(i, "*");
         }
 
         return s;
@@ -43,13 +43,13 @@ public static class Formatter
             if (i > 0)
             {
                 // only have to check for ')' once, because it doesn't matter if it's handled at the start of the previous or at the end of the next bracket
-                bool previousIsCoefficient = char.IsNumber(s[i - 1]) || allowedVariableNames.Contains(s[i - 1]) || s[i - 1] == ')';
+                bool previousIsCoefficient = char.IsNumber(s[i - 1]) || AllowedVariableNames.Contains(s[i - 1]) || s[i - 1] == ')';
                 if (s[i] == '(' && previousIsCoefficient) s = s.Insert(i, "*");
             }
             if (i < s.Length - 1)
             {
                 // check for ',' incase decimal numbers are written like ",4" instead of "0,4"
-                bool nextIsCoefficient = char.IsNumber(s[i + 1]) || allowedVariableNames.Contains(s[i + 1]) || s[i + 1] == ',';
+                bool nextIsCoefficient = char.IsNumber(s[i + 1]) || AllowedVariableNames.Contains(s[i + 1]) || s[i + 1] == ',';
                 if (s[i] == ')' && nextIsCoefficient) s = s.Insert(i + 1, "*");
             }
         }

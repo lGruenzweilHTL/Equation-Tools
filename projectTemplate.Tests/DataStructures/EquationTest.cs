@@ -1,26 +1,26 @@
+using System;
+using FluentAssertions;
 using JetBrains.Annotations;
 using MathTools.Internal;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 namespace projectTemplate.Tests.DataStructures;
 
-[TestClass]
 [TestSubject(typeof(Equation))]
 public class EquationTest {
 
-    [TestMethod]
-    public void TestEquation_Quadratic() {
-        var expected = "c=3";
-        var actual = new Equation("c^4/(c*c)=3(1+2)").Solve();
-
-        Assert.AreEqual(expected, actual);
+    [Theory]
+    [InlineData("x=3", "x=3")]
+    [InlineData("2x+2=0", "x=-1")]
+    [InlineData("a^3=125", "a=5")]
+    [InlineData("(c+2)^2=25", "c=3")]
+    [InlineData("z+z+z+2z+5z=10", "z=1")]
+    public void TestEquation(string expr, string expected) {
+        new Equation(expr).Solve().Should().NotBeNull().And.Be(expected);
     }
-    
-    [TestMethod]
-    public void TestEquation_InfinteSolutions() {
-        var expected = Master.infiniteSolutionsText;
-        var actual = new Equation("x^2-(34x/x)=x^4/(x*x)+(56-90)").Solve();
 
-        Assert.AreEqual(expected, actual);
+    [Fact]
+    public void TestEquationThrows() {
+        Assert.Throws<ArgumentException>(() => new Equation(""));
     }
 }

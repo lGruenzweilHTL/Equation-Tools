@@ -10,7 +10,7 @@ public class Calculation
     public bool IsValid()
     {
         // if there is no occurence of any allowed variable, return true
-        return current.IndexOfAny(Master.allowedVariableNames) == -1;
+        return current.IndexOfAny(Master.AllowedVariableNames) == -1;
     }
 
     public string Evaluate()

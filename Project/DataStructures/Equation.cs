@@ -1,34 +1,31 @@
 using static Master;
+
 namespace MathTools.Internal;
 
-public class Equation
-{
-    public Equation(string left, string right)
-    {
-        this.left = left;
-        this.right = right;
+public class Equation {
+    public Equation(string left, string right) {
+        this.Left = left;
+        this.Right = right;
     }
-    public Equation(string s)
-    {
-        var sp = s.Split('=');
+
+    public Equation(string s) {
+        string[] sp = s.Split('=');
 
         if (sp.Length != 2) throw new ArgumentException("Too many/not enough '=' signs");
 
-        left = sp[0];
-        right = sp[1];
+        Left = sp[0];
+        Right = sp[1];
     }
 
-    public string left;
-    public string right;
-    public int GetUniqueVariableCount(string s)
-    {
+    public string Left { get; private set; }
+    public string Right { get; private set; }
+
+    public int GetUniqueVariableCount(string s) {
         int uniques = 0;
         List<char> alreadyListed = new();
 
-        foreach (char c in s)
-        {
-            if (allowedVariableNames.Contains(c) && !alreadyListed.Contains(c))
-            {
+        foreach (char c in s) {
+            if (AllowedVariableNames.Contains(c) && !alreadyListed.Contains(c)) {
                 uniques++;
                 alreadyListed.Add(c);
             }
@@ -37,33 +34,11 @@ public class Equation
         return uniques;
     }
 
-    public string Solve()
-    {
-        try
-        {
-            return Solve(left, right);
-        }
-        catch { throw; }
+    public string Solve() {
+        return Solve(Left, Right);
     }
 
-    public void TEST()
-    {
-        Console.WriteLine("TEST CASES (equation):");
-        Console.WriteLine("Expected: x=0; Solved: " + new Equation("2*x + x = x + x").Solve());
-        Console.WriteLine("Expected: x=1; Solved: " + new Equation("3x = 3").Solve());
-        Console.WriteLine("Expected: infinite solutions; Solved: " + new Equation("4*4 = 16").Solve());
-        Console.WriteLine("Expected: no solution; Solved: " + new Equation("4*5 = 5*5").Solve());
-        Console.WriteLine("Expected: x=-0,5; Solved: " + new Equation("1 - (x + 2) = x").Solve());
-        Console.WriteLine("Expected: x=-2,5; Solved: " + new Equation("2(x+2) - x = -(x+1)").Solve());
-        Console.WriteLine("Expected: x=243; Solved: " + new Equation("(1+2)^5=x").Solve());
-        Console.WriteLine("Expected: infinite solutions; Solved: " + new Equation("x=x").Solve());
-        Console.WriteLine("Expected: a=1; Evaluated: " + new Equation("125^(1/3) = 5a").Solve());
-        Console.WriteLine("Expected: y=5; Solved: " + new Equation("y^2 + y = y^2 + 5").Solve());
-        Console.WriteLine("\n");
-    }
-
-    private string Solve(string left, string right)
-    {
+    private string Solve(string left, string right) {
         //* Simplify both sides individually
         left = new Expression(left).Simplify();
         right = new Expression(right).Simplify();
@@ -71,10 +46,9 @@ public class Equation
         if (GetUniqueVariableCount(left + right) > 1) throw new ArgumentException("Too many variables in equation");
 
         // Early return if no variables
-        if (GetUniqueVariableCount(left + right) == 0)
-        {
-            if (left == right) return infiniteSolutionsText;
-            else return noSolutionsText;
+        if (GetUniqueVariableCount(left + right) == 0) {
+            if (left == right) return InfiniteSolutionsText;
+            else return NoSolutionsText;
         }
 
         // Add '+' to the start for easier handling (if there's not already a '-')
@@ -90,20 +64,19 @@ public class Equation
 
         if (left == "") left = "0";
 
-        if (left == "0" && right != "0") return noSolutionsText;
-        if (left == right) return infiniteSolutionsText;
+        if (left == "0" && right != "0") return NoSolutionsText;
+        if (left == right) return InfiniteSolutionsText;
 
         (left, right) = DivideVariables(left, right);
 
         return $"{left}={right}";
     }
-    private (string left, string right) MoveVariable(string left, string right)
-    {
-        char variable = (left + right).First(c => allowedVariableNames.Contains(c));
+
+    private (string left, string right) MoveVariable(string left, string right) {
+        char variable = (left + right).First(c => AllowedVariableNames.Contains(c));
 
         //* always move variable to the left side
-        if (right.Contains(variable))
-        {
+        if (right.Contains(variable)) {
             int index = right.IndexOf(variable);
             string product = GetProductAround(right, index);
 
@@ -120,10 +93,9 @@ public class Equation
         }
 
         //* always move numbers to the right side
-        for (int i = 0; i < left.Length; i++)
-        {
+        for (int i = 0; i < left.Length; i++) {
             string product = GetProductAround(left, i);
-            if (product == "" || product.Any(c => allowedVariableNames.Contains(c))) continue;
+            if (product == "" || product.Any(c => AllowedVariableNames.Contains(c))) continue;
 
             // remove product from left side
             left = left.Remove(i - 1, product.Length);
@@ -142,26 +114,22 @@ public class Equation
 
         return (left, right);
     }
-    private string GetProductAround(string s, int index)
-    {
+
+    private string GetProductAround(string s, int index) {
         if (s[index] is '+' or '-') return "";
 
         int startIndex = 0;
         int endIndex = s.Length;
 
-        for (int i = index - 1; i >= 0; i--)
-        {
-            if (s[i] is '+' or '-')
-            {
+        for (int i = index - 1; i >= 0; i--) {
+            if (s[i] is '+' or '-') {
                 startIndex = i; // include the '+' or '-' for further handling
                 break;
             }
         }
 
-        for (int i = index; i < s.Length; i++)
-        {
-            if (s[i] is '+' or '-')
-            {
+        for (int i = index; i < s.Length; i++) {
+            if (s[i] is '+' or '-') {
                 endIndex = i;
                 break;
             }
@@ -170,12 +138,11 @@ public class Equation
         return s[startIndex..endIndex];
     }
 
-    private (string left, string right) DivideVariables(string left, string right)
-    {
+    private (string left, string right) DivideVariables(string left, string right) {
         if (left.Contains('^')) (left, right) = EvalPowers(left, right);
-        if (left.All(c => allowedVariableNames.Contains(c))) return (left, right);
+        if (left.All(c => AllowedVariableNames.Contains(c))) return (left, right);
 
-        char variable = (left + right).First(c => allowedVariableNames.Contains(c));
+        char variable = (left + right).First(c => AllowedVariableNames.Contains(c));
         int variableIndex = left.IndexOf(variable);
 
         string number = left[..variableIndex];
@@ -190,9 +157,9 @@ public class Equation
 
         return (left, right);
     }
-    private (string left, string right) EvalPowers(string left, string right)
-    {
-        char variable = (left + right).First(c => allowedVariableNames.Contains(c));
+
+    private (string left, string right) EvalPowers(string left, string right) {
+        char variable = (left + right).First(c => AllowedVariableNames.Contains(c));
         int powerIndex = left.IndexOf(variable) + 2;
 
         double power = double.Parse(left[powerIndex..]);

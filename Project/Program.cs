@@ -4,10 +4,7 @@ internal class Program
 {
     private static void Main(string[] args)
     {
-        new Expression("").TEST();
-        new Equation("", "").TEST();
-        
-        if (args.Length == 0) InputTest();
+        if (args.Length != 2) InputTest();
         else {
             Console.WriteLine(new Expression(args[0]).Simplify());
             Console.WriteLine(new Equation(args[1]).Solve());
