@@ -20,6 +20,8 @@ public class ExpressionTest {
     [InlineData("99*(99*99)*99+99^2-99/4*pi-e/2^7", "96069324,22434524")]
     [InlineData("(a+b)(a+c)", "a^2+ac+ab+bc")]
     [InlineData("1-(1-(1-(1-(1-(1-(1-(1-(1)", "1")]
+    [InlineData("(a+1)^2", "a^2+2a+1")]
+    [InlineData("x^3+x^2-x^1-1", "x^3+x^2-x-1")]
     public void TestExpression(string expr, string expected) {
         new Expression(expr).Simplify().Should().NotBeNull().And.Be(expected);
     }

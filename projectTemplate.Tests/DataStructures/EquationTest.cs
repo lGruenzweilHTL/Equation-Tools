@@ -15,6 +15,7 @@ public class EquationTest {
     [InlineData("a^3=125", "a=5")]
     [InlineData("(c+2)^2=25", "c=3")]
     [InlineData("z+z+z+2z+5z=10", "z=1")]
+    [InlineData("d^2=144", "d=12")]
     public void TestEquation(string expr, string expected) {
         new Equation(expr).Solve().Should().NotBeNull().And.Be(expected);
     }

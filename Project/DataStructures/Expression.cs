@@ -86,7 +86,7 @@ public class Expression {
 
                 if (openIndex > 1 && s[openIndex - 1] is '*' or '/') {
                     if (s[openIndex - 2] == ')') {
-                        startProduct = GetBracketAt(s, openIndex - 2);
+                        startProduct = s.GetBracketAtIndex(openIndex - 2);
                         bracketTimesBracket = true;
                     }
                     else startProduct = GetStartOperationAt(s, openIndex - 2);
@@ -94,7 +94,7 @@ public class Expression {
 
                 if (closedIndex < s.Length - 2 && s[closedIndex + 1] is '*' or '/') {
                     if (s[closedIndex + 2] == '(') {
-                        endProduct = GetBracketAt(s, closedIndex + 2);
+                        endProduct = s.GetBracketAtIndex(closedIndex + 2);
                         bracketTimesBracket = true;
                     }
                     else endProduct = GetEndOperationAt(s, closedIndex + 2);
@@ -106,7 +106,7 @@ public class Expression {
                     }
 
                     if (dotOperationAtStart && s[openIndex - 1] == '/') {
-                        StringBuilder bracket = new(GetBracketAt(s, closedIndex));
+                        StringBuilder bracket = new(s.GetBracketAtIndex(closedIndex));
                         for (int j = 0; j < bracket.Length; j++) {
                             if (bracket[j] == '*') bracket[j] = '/';
                             else if (bracket[j] == '/') bracket[j] = '*';
@@ -228,37 +228,6 @@ public class Expression {
             if (s[i] is '+' or '-' or '(' or ')') {
                 endIndex = i - 1;
                 break;
-            }
-        }
-
-        return s[startIndex..endIndex];
-    }
-
-    private string GetBracketAt(string s, int index) {
-        int startIndex = 0;
-        int endIndex = s.Length;
-
-        int layer = 0;
-
-        for (int i = index; i >= 0; i--) {
-            if (s[i] == '(') {
-                startIndex = i;
-                for (int j = i; j < s.Length; j++) // find out layer (I hope no one has to read this except for me)
-                {
-                    if (s[j] == '(') layer++;
-                    else break;
-                }
-
-                break;
-            }
-        }
-
-        for (int i = index; i < s.Length; i++) {
-            if (s[i] is ')') {
-                if (--layer == 0) {
-                    endIndex = i + 1;
-                    break;
-                }
             }
         }
 
