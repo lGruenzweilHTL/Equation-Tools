@@ -1,5 +1,5 @@
 # Equation-Tools
- Tools for evaluating and simplifying mathematical expressions and evaluating equations
+ Tools for simplifying mathematical expressions and evaluating equations
 
 ## Data Types
 ### Calculation (Internal)
