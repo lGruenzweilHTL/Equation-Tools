@@ -55,6 +55,7 @@ public static class Formatter {
         // TODO implement method that doesn't use repetition
         for (int i = 1; i < s.Length; i++) {
             if (s[i] == '^' && s[i - 1] == ')') {
+                if (!s[i].IsPartOfDecimalNumber()) return s;
                 double exponent = s.GetParsedDecimalNumberAtIndex(i + 1);
                 
                 if (exponent != (int)exponent) throw new FormatException("Only integer exponents for brackets");

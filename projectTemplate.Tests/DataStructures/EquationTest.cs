@@ -1,7 +1,7 @@
 using System;
 using FluentAssertions;
 using JetBrains.Annotations;
-using MathTools.Internal;
+using MathTools;
 using Xunit;
 
 namespace projectTemplate.Tests.DataStructures;
