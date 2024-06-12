@@ -1,20 +1,17 @@
 ﻿using MathTools;
 using MathTools.Internal;
-internal class Program
-{
-    private static void Main(string[] args)
-    {
-        if (args.Length != 2) InputTest();
-        else {
-            Console.WriteLine(new Expression(args[0]).Simplify());
-            Console.WriteLine(new Equation(args[1]).Solve());
-        }
-        Console.ReadLine();
-    }
-
-    private static void InputTest()
-    {
-        Console.Write("Enter an Equation: ");
-        Console.WriteLine("Solved to: " + new Equation(Console.ReadLine()!).Solve());
+internal class Program {
+    private static void Main(string[] args) {
+        Console.WriteLine(new Expression("1/(x+1)").Simplify());
+        do {
+            Console.Write("Enter an equation (invalid equation for exit): ");
+            string equation = Console.ReadLine();
+            try {
+                Console.WriteLine("Solved to: {0}\n", new Equation(equation).Solve());
+            }
+            catch (ArgumentException) {
+                break;
+            }
+        } while (true);
     }
 }

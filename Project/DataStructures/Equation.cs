@@ -1,6 +1,6 @@
 using static Master;
 
-namespace MathTools.Internal;
+namespace MathTools;
 
 public class Equation {
     public Equation(string left, string right) {
